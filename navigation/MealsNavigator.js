@@ -11,6 +11,7 @@ import colors from "../constants/Colors";
 import FavoritesScreen from "../screens/FavoritesScreens";
 import { Ionicons } from "@expo/vector-icons";
 import { createMaterialBottomTabNavigator } from "react-navigation-material-bottom-tabs";
+import FiltersScreen from "../screens/FiltersScreen";
 
 const defaultNavigationOptions = {
   headerStyle: {
@@ -21,10 +22,7 @@ const defaultNavigationOptions = {
 const MealsNavigator = createStackNavigator(
   {
     Categories: {
-      screen: CategoriesScreen,
-      navigationOptions: {
-        headerTitle: "Meals Categories"
-      }
+      screen: CategoriesScreen
     },
     CategoryMeals: {
       screen: CategoryMealsScreen
@@ -40,10 +38,7 @@ const MealsNavigator = createStackNavigator(
 const FavNavigator = createStackNavigator(
   {
     Favorites: {
-      screen: FavoritesScreen,
-      navigationOptions: {
-        headerTitle: "Your Favorites"
-      }
+      screen: FavoritesScreen
     },
     MealDetail: MealDetailScreen
   },
@@ -78,6 +73,11 @@ const tabScreenConfig = {
     }
   }
 };
+
+const FiltersNavigator = createStackNavigator({
+  Filters: { screen: FiltersScreen }
+});
+
 // In this case, the navigationOptions configure the "nested navigator" (which is used as a screen) for that "parent navigator".
 const MealsFavTabNavigator =
   Platform.OS === "android"
@@ -90,5 +90,9 @@ const MealsFavTabNavigator =
           activeTintColor: colors.accentColor
         }
       });
+const MainNavigator = createDrawerNavigator({
+  MealsFavs: MealsFavTabNavigator,
+  Filters: FiltersNavigator
+});
 
-export default createAppContainer(MealsFavTabNavigator);
+export default createAppContainer(MainNavigator);
